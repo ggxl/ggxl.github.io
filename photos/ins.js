@@ -117,7 +117,7 @@
         var liTmpl = "";
         for (var i = 0, len = data.link.length; i < len; i++) {
           var minSrc = 'http://gaoxueliang.com.cn/min_photos/' + data.link[i];
-          var src = 'http://gaoxueliang.com.cn/photos/' + data.link[i];
+          var src = 'http://gaoxueliang.com.cn/org_photos/' + data.link[i];
           var type = data.type[i];
           var target = src + (type === 'video' ? '.mp4' : '.jpg');
           src += '';
