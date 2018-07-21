@@ -371,6 +371,7 @@ var _hmt = _hmt || [];
   
 
 
+
 <style type="text/css">
 
 /*#loveHeart{float:left;width:670px;height:625px}*/
@@ -946,21 +947,34 @@ function showLoveU() {
 
 <script type="text/javascript">
 
-$loveHeart = $("#loveHeart");
+var sUserAgent = navigator.userAgent.toLowerCase();
+    var bIsIpad = sUserAgent.match(/ipad/i) == "ipad";
+    var bIsIphoneOs = sUserAgent.match(/iphone os/i) == "iphone os";
+    var bIsMidp = sUserAgent.match(/midp/i) == "midp";
+    var bIsUc7 = sUserAgent.match(/rv:1.2.3.4/i) == "rv:1.2.3.4";
+    var bIsUc = sUserAgent.match(/ucweb/i) == "ucweb";
+    var bIsAndroid = sUserAgent.match(/android/i) == "android";
+    var bIsCE = sUserAgent.match(/windows ce/i) == "windows ce";
+    var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
+    if (!(bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) ){
+        $loveHeart = $("#loveHeart");
 
    
-var together = new Date();
-    together.setFullYear(2015, 6, 23)
-    together.setHours(0);//20
-    together.setMinutes(0);
-    together.setSeconds(0);
-    together.setMilliseconds(0);
+	var together = new Date();
+	    together.setFullYear(2015, 6, 23)
+	    together.setHours(0);//20
+	    together.setMinutes(0);
+	    together.setSeconds(0);
+	    together.setMilliseconds(0);
 
-    timeElapse(together);
-        setInterval(function () {
-            timeElapse(together);
-        }, 500);
-    startHeartAnimation();
+	    timeElapse(together);
+		setInterval(function () {
+		    timeElapse(together);
+		}, 500);
+	    startHeartAnimation();
+    }
+
+
 
 
 
