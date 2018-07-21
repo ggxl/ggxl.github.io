@@ -372,41 +372,27 @@ var _hmt = _hmt || [];
 /*#loveHeart{float:left;width:670px;height:625px}*/
 
 #loveHeart{
-width:670px;height:625px;
-position: absolute;
-            top: 50%;
-            left: 50%;
-            -webkit-transform: translate(-50%, -50%);
-            -moz-transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            -o-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-	    }
+	width:670px;height:625px;
+	position: absolute;
+	top: 300px;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	-moz-transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	-o-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
 
 #garden{width:100%;height:100%}
 
-#words{font-family:"sans-serif";width:500px;font-size:12px;color:#f703d7}
+#words{font-family:"sans-serif";width:500px;font-size:20px;color:#f703d7;top: 150px;left:120px;}
 #messages{display:none}
 
-#loveu{padding:5px;font-size:22px;margin-top:80px;margin-right:275px;text-align:right;display:none}
+#loveu{padding:5px;font-size:22px;margin-top:80px;margin-right:190px;text-align:right;display:none}
 #loveu .signature{margin-top:10px;font-size:20px;font-style:italic}
 
 </style>
-<script>/*!
- * jQuery JavaScript Library v1.4.2
- * http://jquery.com/
- *
- * Copyright 2010, John Resig
- * Dual licensed under the MIT or GPL Version 2 licenses.
- * http://jquery.org/license
- *
- * Includes Sizzle.js
- * http://sizzlejs.com/
- * Copyright 2010, The Dojo Foundation
- * Released under the MIT, BSD, and GPL Licenses.
- *
- * Date: Sat Feb 13 22:33:48 2010 -0500
- */
+<script>
 (function(A,w){function ma(){if(!c.isReady){try{s.documentElement.doScroll("left")}catch(a){setTimeout(ma,1);return}c.ready()}}function Qa(a,b){b.src?c.ajax({url:b.src,async:false,dataType:"script"}):c.globalEval(b.text||b.textContent||b.innerHTML||"");b.parentNode&&b.parentNode.removeChild(b)}function X(a,b,d,f,e,j){var i=a.length;if(typeof b==="object"){for(var o in b)X(a,o,b[o],f,e,d);return a}if(d!==w){f=!j&&f&&c.isFunction(d);for(o=0;o<i;o++)e(a[o],b,f?d.call(a[o],o,e(a[o],b)):d,j);return a}return i?
 e(a[0],b):w}function J(){return(new Date).getTime()}function Y(){return false}function Z(){return true}function na(a,b,d){d[0].type=a;return c.event.handle.apply(b,d)}function oa(a){var b,d=[],f=[],e=arguments,j,i,o,k,n,r;i=c.data(this,"events");if(!(a.liveFired===this||!i||!i.live||a.button&&a.type==="click")){a.liveFired=this;var u=i.live.slice(0);for(k=0;k<u.length;k++){i=u[k];i.origType.replace(O,"")===a.type?f.push(i.selector):u.splice(k--,1)}j=c(a.target).closest(f,a.currentTarget);n=0;for(r=
 j.length;n<r;n++)for(k=0;k<u.length;k++){i=u[k];if(j[n].selector===i.selector){o=j[n].elem;f=null;if(i.preType==="mouseenter"||i.preType==="mouseleave")f=c(a.relatedTarget).closest(i.selector)[0];if(!f||f!==o)d.push({elem:o,handleObj:i})}}n=0;for(r=d.length;n<r;n++){j=d[n];a.currentTarget=j.elem;a.data=j.handleObj.data;a.handleObj=j.handleObj;if(j.handleObj.origHandler.apply(j.elem,e)===false){b=false;break}}return b}}function pa(a,b){return"live."+(a&&a!=="*"?a+".":"")+b.replace(/\./g,"`").replace(/ /g,
@@ -758,8 +744,8 @@ var offsetX,offsetY;
 $(function () {
     // setup garden
 	$loveHeart = $("#loveHeart");
-	$loveHeart.width(($("body").width()-$(".left-col").width())/2);
-	$loveHeart.height($loveHeart.width());
+	//$loveHeart.width(($("body").width()-$(".left-col").width())/2);
+	//$loveHeart.height($loveHeart.width());
 	offsetX = $loveHeart.width() / 2;
 	offsetY = $loveHeart.height() / 2 ;
     $garden = $("#garden");
@@ -791,8 +777,8 @@ $(window).resize(function() {
 
 function getHeartPoint(angle) {
 	var t = angle / Math.PI;
-	var x = 19.5 * (11 * Math.pow(Math.sin(t), 3));
-	var y = - 20 * (8 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+	var x = 19.5 * (13 * Math.pow(Math.sin(t), 3));
+	var y = - 20 * (11 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
 	return new Array(offsetX + x, offsetY + y);
 }
 
@@ -911,7 +897,7 @@ function showMessages() {
 function adjustWordsPosition() {
 	$('#words').css("position", "absolute");
 	$('#words').css("top", $("#garden").position().top + 150);
-	$('#words').css("left", $("#garden").position().left + 70);
+	$('#words').css("left", $("#garden").position().left + 120);
 }
 //������������λ�ã����һ���δ�ֱ����
 function adjustCodePosition() {
@@ -927,14 +913,14 @@ function showLoveU() {
 	<canvas id="garden"></canvas>
 	<div id="words">
 		<div id="messages">
-			<div class="signature">Tom:</div>
+			<div class="signature">Jerry:</div>
 			We have met
 			<div id="elapseClock"></div>
 		</div>
 		<div id="loveu">
 			I love u.<br/>
 
-			<div class="signature">-jerry</div>
+			<div class="signature">-Tom</div>
 		</div>
 	</div>
 </div>
@@ -967,6 +953,10 @@ var sUserAgent = navigator.userAgent.toLowerCase();
 		    timeElapse(together);
 		}, 500);
 	    startHeartAnimation();
+
+	    setTimeout(function(){
+		$loveHeart.fadeOut(3000);
+	    },15000);
     }
 
 
