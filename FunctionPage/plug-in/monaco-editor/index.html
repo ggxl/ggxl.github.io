@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+	<style type="text/css">
+		.select{
+			margin-bottom: 10px;
+		}
+		.select div{
+			width: 425px;
+			margin: 0 auto;
+		}
+		.select span{
+			margin: 10px;
+		}
+		.select select{
+			height: 35px;
+			width: 150px;
+		}
+	</style>
+</head>
+<body>
+
+<div class="select">
+	<div>
+		<span>主题:
+			<select id="themes">
+				<option value="hc-black">High Contrast Dark</option>
+				<option value="vs-dark">Visual Studio Dark</option>
+				<option value="vs">Visual Studio</option>
+			</select>
+		</span>
+		<span>语言:<select id="languages"></select></span>
+	</div>
+</div>
+
+<div id="container">
+	
+</div>
+<!-- <div id="container"></div> -->
+
+<script src="min/vs/loader.js"></script>
+<script>
+
+	var editor=[],OdefEditor,LU,LD,RU,ViewIframe,Olanguages=document.getElementById("languages"),Othemes=document.getElementById("themes");
+	
+	createEditorContainer(false);
+	
+	require.config({ paths: { 'vs': 'min/vs' }});
+	require(['vs/editor/editor.main'], function() {
+		
+		createLanguageOptions();
+		bindChange();
+		Olanguages.value="javascript";
+		createEditor();
+	});
+	function createEditor(isHtmlEditor){
+		if((!isHtmlEditor&&editor.length>0)||editor.length>2){
+			return ;
+		}
+
+		if(isHtmlEditor&&!isShow(OdefEditor)){
+			editor[1]=monaco.editor.create(LU, {
+				value: [
+					'<!-- html -->'
+				].join('\n'),
+				language: 'html'
+			});
+			editor[2]=monaco.editor.create(LD, {
+				value: [
+					'/* css */'
+				].join('\n'),
+				language: 'css'
+			});
+			editor[3]=monaco.editor.create(RU, {
+				value: [
+					'/* javascript */'
+				].join('\n'),
+				language: 'javascript'
+			});
+
+		}else{
+			editor[0]= monaco.editor.create(OdefEditor, {
+				value: [
+					'function x() {',
+					'\tconsole.log("Hello world!");',
+					'}'
+				].join('\n'),
+				language: 'javascript'
+			});
+			monaco.editor.setTheme("hc-black");
+		}
+	}
+	/**
+	createLanguage
+	**/
+	function createLanguageOptions(){
+		//DocumentFragment节点不属于文档树，继承的parentNode属性总是null。它有一个很实用的特点，当请求把一个DocumentFragment节点插入文档树时，插入的不是DocumentFragment自身，而是它的所有子孙节点。这个特性使得DocumentFragment成了占位符，暂时存放那些一次插入文档的节点。它还有利于实现文档的剪切、复制和粘贴操作。 另外，当需要添加多个dom元素时，如果先将这些元素添加到DocumentFragment中，再统一将DocumentFragment添加到页面，会减少页面渲染dom的次数，效率会明显提升。
+		//还有一个很重要的特性是，如果使用appendChid方法将原dom树中的节点添加到DocumentFragment中时，会删除原来的节点
+		var options= document.createDocumentFragment();
+		monaco.languages.getLanguages().sort(function(a,b){return a.id>b.id?1:-1}).forEach(function(item){
+			var optionObj = document.createElement("option");
+			optionObj.value=item.id;
+			optionObj.text=item.id/*item.aliases[0]*/;
+			options.appendChild(optionObj);
+		});
+		Olanguages.appendChild(options);
+	}
+	function bindChange(){
+		Olanguages.onchange=function(event){
+			
+			if(event.target.value=="html"){
+				OdefEditor.style.display="none";
+
+				if(editor.length==1){
+					createEditorContainer(true);
+					createEditor(true);
+				}
+				LU.style.display="block";
+				LD.style.display="block";
+				RU.style.display="block";
+				RD.style.display="block";
+			}else{
+				var newModel = monaco.editor.createModel("", event.target.value);
+				editor[0].setModel(newModel);
+				OdefEditor.style.display="block";
+				LU.style.display="none";
+				LD.style.display="none";
+				RU.style.display="none";
+				RD.style.display="none";
+
+			}
+			
+		};
+		Othemes.onchange=function(event){
+			monaco.editor.setTheme(event.target.value);
+		};
+	}
+	/**
+	计算编辑器高度
+	**/
+	function createEditorContainer(isHtmlEditor){
+
+		var divHeight = document.documentElement.clientHeight-document.getElementsByClassName("select")[0].offsetHeight-10;
+		
+		var documentFragment = document.createDocumentFragment();
+		if(!isHtmlEditor){
+			OdefEditor = document.createElement("div");
+			OdefEditor.id="defEditor";
+			OdefEditor.style.height=divHeight*2+"px";
+			documentFragment.appendChild(OdefEditor);
+			document.body.appendChild(documentFragment);
+
+		}else{
+			
+			var h = (document.documentElement.clientHeight-document.getElementsByClassName("select")[0].offsetHeight-10)/2;
+			var w = (document.documentElement.clientWidth-32)/2;
+			
+			LU = document.createElement("div");
+			LD = document.createElement("div");
+			RU = document.createElement("div");
+			RD = document.createElement("div");
+			LU.id="LU";
+			LU.style="float:left;width:"+w+"px;height:"+h+"px;border:2px solid #a09999;border-right-width:1px;border-bottom-width:1px";
+			LD.id="LD";
+			LD.style="float:left;width:"+w+"px;height:"+h+"px;border:2px solid #a09999;border-left-width:1px;border-bottom-width:1px";
+			RU.id="RU";
+			RU.style="float:left;width:"+w+"px;height:"+h+"px;border:2px solid #a09999;border-right-width:1px;border-top-width:1px";
+			RD.id="RD";
+			RD.style="float:left;width:"+w+"px;height:"+h+"px;border:2px solid #a09999;border-left-width:1px;border-top-width:1px";
+			documentFragment.appendChild(LU);
+			documentFragment.appendChild(LD);
+			documentFragment.appendChild(RU);
+			documentFragment.appendChild(RD);
+			ViewIframe = document.createElement("iframe");
+			ViewIframe.width=w+"px",ViewIframe.height=h+"px",ViewIframe.frameborder="0",ViewIframe.scrolling="no",ViewIframe.style.border="0px";
+			RD.appendChild(ViewIframe);
+			
+			document.body.appendChild(documentFragment);
+		}
+		
+	}
+
+	function isShow(element){
+		return !(element.style.display=="none");
+	}
+	document.onkeyup=function(){
+		if(editor.length>2&&isShow(RD)){
+			var html = editor[1].getValue();
+			var css = editor[2].getValue();
+			var javascript = editor[3].getValue();
+			ViewIframe.contentDocument.close();
+			ViewIframe.contentDocument.write('<style type="text/css">'+css+'</style>'+html+'<script type="text/javascript">'+javascript+'<\/script>');
+		}
+	};
+	
+</script>
+</body>
+</html>
