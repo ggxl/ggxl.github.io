@@ -168,6 +168,125 @@ var _hmt = _hmt || [];
             
 
   
+    <article id="post-工具/记一次IDEA默认配置差点带走我的C盘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/06/工具/记一次IDEA默认配置差点带走我的C盘/">idea差点带走我可怜的C盘</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/06/工具/记一次IDEA默认配置差点带走我的C盘/" class="archive-article-date">
+  	<time datetime="2018-08-06T06:03:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018年08月06日 14:03:02</time>
+</a>
+        
+        
+        <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text">  字数统计: </span>
+        <span class="post-count">310字</span>
+      </span>
+    </span>
+
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text">  阅读时长: </span>
+        <span class="post-count">1分</span>
+      </span>
+    </span>
+</div>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>昨天下午搭环境，在idea里点了下更新maven<code>updating maven repository indices...</code>等了好久还没好，于是电脑没关机，下班走人了，万万没想到，今天早上来了之后。。。</p>
+</blockquote>
+<p><img src="1.png" alt="" title="惊恐...."><br>又试下了下昨天的操作<br><img src="2.png" alt="" title="吓死...."><br>还从没试过C盘爆了的情况…<br>害怕，赶紧终止了！！</p>
+<blockquote>
+<p>将IDEA的一些文件转移到D盘，修改idea的bin目录下有个一个idea.properties配置文件，默认是在用户目录下，改到D盘<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#---------------------------------------------------------------------</span><br><span class="line"># Uncomment this option if you want to customize path to IDE config folder. Make sure you&apos;re using forward slashes.</span><br><span class="line">#---------------------------------------------------------------------</span><br><span class="line"># idea.config.path=$&#123;user.home&#125;/.IntelliJIdea/config</span><br><span class="line">idea.config.path=D:/IDEA/.IntelliJIdea/config</span><br><span class="line"></span><br><span class="line">#---------------------------------------------------------------------</span><br><span class="line"># Uncomment this option if you want to customize path to IDE system folder. Make sure you&apos;re using forward slashes.</span><br><span class="line">#---------------------------------------------------------------------</span><br><span class="line"># idea.system.path=$&#123;user.home&#125;/.IntelliJIdea/system</span><br><span class="line">idea.system.path=D:/IDEA/.IntelliJIdea/system</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>重启IDEA ，这时IDEA的配置目录是空的，选择导入已有的配置，也就是原来C盘用户目录下的<code>.IntelliJIdea/config</code>即可恢复原有的配置。</p>
+</blockquote>
+<blockquote>
+<p>maven本地仓库顺手也挪了一下，实在是怕了。<br>修改maven /conf/setting.xml<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">localRepository</span>&gt;</span>D:/java/apache-maven-3.5.0/repository<span class="tag">&lt;/<span class="name">localRepository</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>IDEA <code>contrl+atr+s</code> 搜maven ，maven home directory:选择使用自己安装的maven，use setting file:选择我们刚改的setting.xml</p>
+</blockquote>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">工具</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">idea</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/06/工具/记一次IDEA默认配置差点带走我的C盘/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-技术/ClassLoader类加载器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1639,11 +1758,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color2">log4j2</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">ClassLoader</a>
+                <a href="javascript:void(0)" class="js-tag color3">工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">idea</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1663,7 +1786,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">log4j2</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">ClassLoader</a>
               </li>
             
             <div class="clearfix"></div>
