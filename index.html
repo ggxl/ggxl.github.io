@@ -168,6 +168,125 @@ var _hmt = _hmt || [];
             
 
   
+    <article id="post-技术/集群环境下做session共享" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/06/技术/集群环境下做session共享/">集群环境下做session共享</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/06/技术/集群环境下做session共享/" class="archive-article-date">
+  	<time datetime="2018-08-06T11:08:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018年08月06日 19:08:05</time>
+</a>
+        
+        
+        <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text">  字数统计: </span>
+        <span class="post-count">2,672字</span>
+      </span>
+    </span>
+
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text">  阅读时长: </span>
+        <span class="post-count">13分</span>
+      </span>
+    </span>
+</div>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>在单机服务器上，我们将当前用户信息直接保存在session中，是完全没有问题的，但稍大点的网站，一般都是集群方式部署，通过负载均衡分发请求，如果用户在A服务器上登录后，在有效的session时间范围内，在此访问网站，此时请求可能被分发到B服务器，但是B服务器上并没有该用户的session，就会出现已经登录的用户被判断为未登录,需要用户重新登录的情况</p>
+</blockquote>
+<h2 id="什么是session"><a href="#什么是session" class="headerlink" title="什么是session"></a>什么是session</h2><blockquote>
+<p>session被用于表示一个持续的连接状态，在网站访问中一般指代客户端浏览器的进程从开启到结束的过程。session其实就是网站分析的访问（visits）度量，表示一个访问的过程。</p>
+<p>当用户在浏览器端发起请求到服务器端的时候，服务器首先会检查请求中有没有sessionid，如果没有，则创建一个名字叫jsessionid的cookie返回给浏览器，并且将这个sessionid以HashTable的结构形式保存在服务器中，当请求中有sessionid时，服务器会用该sessionid查找这个session的信息并直接使用，如果没有找到则重新创建一个新的sessionid返回给浏览器。</p>
+<ul>
+<li>session就是一个特殊的cookie</li>
+<li>session由服务端生成</li>
+<li>session表示一个会话状态
+        
+          <a class="article-more-a" href="/2018/08/06/技术/集群环境下做session共享/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后端</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">集群</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/06/技术/集群环境下做session共享/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-工具/记一次IDEA默认配置差点带走我的C盘" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -209,22 +328,10 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>昨天下午搭环境，在idea里点了下更新maven<code>updating maven repository indices...</code>等了好久还没好，于是电脑没关机，下班走人了，万万没想到，今天早上来了之后。。。</p>
-</blockquote>
-<p><img src="1.png" alt="" title="惊恐...."><br>又试下了下昨天的操作<br><img src="2.png" alt="" title="吓死...."><br>还从没试过C盘爆了的情况…<br>害怕，赶紧终止了！！</p>
-<blockquote>
-<p>将IDEA的一些文件转移到D盘，修改idea的bin目录下有个一个idea.properties配置文件，默认是在用户目录下，改到D盘<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#---------------------------------------------------------------------</span><br><span class="line"># Uncomment this option if you want to customize path to IDE config folder. Make sure you&apos;re using forward slashes.</span><br><span class="line">#---------------------------------------------------------------------</span><br><span class="line"># idea.config.path=$&#123;user.home&#125;/.IntelliJIdea/config</span><br><span class="line">idea.config.path=D:/IDEA/.IntelliJIdea/config</span><br><span class="line"></span><br><span class="line">#---------------------------------------------------------------------</span><br><span class="line"># Uncomment this option if you want to customize path to IDE system folder. Make sure you&apos;re using forward slashes.</span><br><span class="line">#---------------------------------------------------------------------</span><br><span class="line"># idea.system.path=$&#123;user.home&#125;/.IntelliJIdea/system</span><br><span class="line">idea.system.path=D:/IDEA/.IntelliJIdea/system</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<blockquote>
-<p>重启IDEA ，这时IDEA的配置目录是空的，选择导入已有的配置，也就是原来C盘用户目录下的<code>.IntelliJIdea/config</code>即可恢复原有的配置。</p>
-</blockquote>
-<blockquote>
-<p>maven本地仓库顺手也挪了一下，实在是怕了。<br>修改maven /conf/setting.xml<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">localRepository</span>&gt;</span>D:/java/apache-maven-3.5.0/repository<span class="tag">&lt;/<span class="name">localRepository</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<blockquote>
-<p>IDEA <code>contrl+atr+s</code> 搜maven ，maven home directory:选择使用自己安装的maven，use setting file:选择刚改的setting.xml</p>
-</blockquote>
-
+<p>昨天下午搭环境，在idea里点了下更新maven<code>updating maven repository indices...</code>等了好久还没好，于是电脑没关机，下班走人了，万万没想到，今天早上来了之后。。。<br>
+        
+          <a class="article-more-a" href="/2018/08/06/工具/记一次IDEA默认配置差点带走我的C盘/#more">more >></a>
+        
       
 
       
@@ -1754,26 +1861,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工具</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">idea</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">前端</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">插件</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">dom</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">后端</a>
               </li>
              
@@ -1790,7 +1877,35 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">前端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">插件</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">log4j</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">idea</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">dom</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">分布式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">集群</a>
               </li>
             
             <div class="clearfix"></div>

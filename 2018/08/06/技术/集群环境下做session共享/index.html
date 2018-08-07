@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://gaoxueliang.com.cn">
-  <title>Archives: 2018 | gaoxueliang</title>
+  <title>集群环境下做session共享 | gaoxueliang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="gaoxueliang">
-<meta property="og:url" content="http://gaoxueliang.com.cn/archives/2018/index.html">
+  <meta name="description" content="在单机服务器上，我们将当前用户信息直接保存在session中，是完全没有问题的，但稍大点的网站，一般都是集群方式部署，通过负载均衡分发请求，如果用户在A服务器上登录后，在有效的session时间范围内，在此访问网站，此时请求可能被分发到B服务器，但是B服务器上并没有该用户的session，就会出现已经登录的用户被判断为未登录,需要用户重新登录的情况  什么是session session被用于表">
+<meta name="keywords" content="技术,后端,java,集群">
+<meta property="og:type" content="article">
+<meta property="og:title" content="集群环境下做session共享">
+<meta property="og:url" content="http://gaoxueliang.com.cn/2018/08/06/技术/集群环境下做session共享/index.html">
 <meta property="og:site_name" content="gaoxueliang">
+<meta property="og:description" content="在单机服务器上，我们将当前用户信息直接保存在session中，是完全没有问题的，但稍大点的网站，一般都是集群方式部署，通过负载均衡分发请求，如果用户在A服务器上登录后，在有效的session时间范围内，在此访问网站，此时请求可能被分发到B服务器，但是B服务器上并没有该用户的session，就会出现已经登录的用户被判断为未登录,需要用户重新登录的情况  什么是session session被用于表">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://gaoxueliang.com.cn/2018/08/06/技术/集群环境下做session共享/SessionRepositoryFilter.png">
+<meta property="og:updated_time" content="2018-08-07T08:48:53.257Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="gaoxueliang">
+<meta name="twitter:title" content="集群环境下做session共享">
+<meta name="twitter:description" content="在单机服务器上，我们将当前用户信息直接保存在session中，是完全没有问题的，但稍大点的网站，一般都是集群方式部署，通过负载均衡分发请求，如果用户在A服务器上登录后，在有效的session时间范围内，在此访问网站，此时请求可能被分发到B服务器，但是B服务器上并没有该用户的session，就会出现已经登录的用户被判断为未登录,需要用户重新登录的情况  什么是session session被用于表">
+<meta name="twitter:image" content="http://gaoxueliang.com.cn/2018/08/06/技术/集群环境下做session共享/SessionRepositoryFilter.png">
   
     <link rel="alternative" href="/atom.xml" title="gaoxueliang" type="application/atom+xml">
   
@@ -165,36 +172,165 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-技术/集群环境下做session共享" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/06/技术/集群环境下做session共享/" class="archive-article-date">
-  	<time datetime="2018-08-06T11:08:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-06</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/06/技术/集群环境下做session共享/">集群环境下做session共享</a>
+    <h1 class="article-title" itemprop="name">
+      集群环境下做session共享
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/08/06/技术/集群环境下做session共享/" class="archive-article-date">
+  	<time datetime="2018-08-06T11:08:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018年08月06日 19:08:05</time>
+</a>
+        
+        
+        <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text">  字数统计: </span>
+        <span class="post-count">2,672字</span>
+      </span>
+    </span>
+
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text">  阅读时长: </span>
+        <span class="post-count">13分</span>
+      </span>
+    </span>
+</div>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>在单机服务器上，我们将当前用户信息直接保存在session中，是完全没有问题的，但稍大点的网站，一般都是集群方式部署，通过负载均衡分发请求，如果用户在A服务器上登录后，在有效的session时间范围内，在此访问网站，此时请求可能被分发到B服务器，但是B服务器上并没有该用户的session，就会出现已经登录的用户被判断为未登录,需要用户重新登录的情况</p>
+</blockquote>
+<h2 id="什么是session"><a href="#什么是session" class="headerlink" title="什么是session"></a>什么是session</h2><blockquote>
+<p>session被用于表示一个持续的连接状态，在网站访问中一般指代客户端浏览器的进程从开启到结束的过程。session其实就是网站分析的访问（visits）度量，表示一个访问的过程。</p>
+<p>当用户在浏览器端发起请求到服务器端的时候，服务器首先会检查请求中有没有sessionid，如果没有，则创建一个名字叫jsessionid的cookie返回给浏览器，并且将这个sessionid以HashTable的结构形式保存在服务器中，当请求中有sessionid时，服务器会用该sessionid查找这个session的信息并直接使用，如果没有找到则重新创建一个新的sessionid返回给浏览器。</p>
+<ul>
+<li>session就是一个特殊的cookie</li>
+<li>session由服务端生成</li>
+<li>session表示一个会话状态<a id="more"></a>
+</li>
+</ul>
+</blockquote>
+<h2 id="解决session共享的方案"><a href="#解决session共享的方案" class="headerlink" title="解决session共享的方案"></a>解决session共享的方案</h2><blockquote>
+<p>搜一下，网上有很多解决方案大概如下：</p>
+<ul>
+<li><p>通过数据库共享session</p>
+<blockquote>
+<p>用一个数据库保存所有session信息，当用户请求来时，会到这个数据库服务器上检查session信息</p>
+</blockquote>
+</li>
+<li><p>通过cookie共享session</p>
+<blockquote>
+<p>将用户的登录后的信息存在cookie中，当访问服务器时首先服务器判断有没有这个用户的session信息，如果没有在去查cookie中有没用户的信息，如果有，则将cookie中的用户信息同步到服务器中。<br>缺点：安全性太低，用户可以伪造cookie，浏览器还可以禁止cookie</p>
+</blockquote>
+</li>
+<li><p>通过多台服务器内部同步session</p>
+<blockquote>
+<p>使用一台服务器作为登录服务器,当用户登录后，登录服务器将用户的session同步到其他服务器上</p>
+</blockquote>
+</li>
+<li><p>通过NFS共享session</p>
+<blockquote>
+<p>选择一台公共的NFS服务器做共享服务器，不管用户在哪台服务器登录后，都将session写到这台NFS服务器上，不管用户访问哪台服务器都来这个NFS服务器上拿session</p>
+</blockquote>
+</li>
+<li><p>使用memcache/redis共享session</p>
+<blockquote>
+<p>不管哪台服务器登录，都将用户session存放在内存中。后面也都在这里取。这种方式是最符合我们条件的方式。</p>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+<h2 id="spring-session-redis-实现session共享"><a href="#spring-session-redis-实现session共享" class="headerlink" title="spring-session + redis 实现session共享"></a>spring-session + redis 实现session共享</h2><h5 id="依赖jar包"><a href="#依赖jar包" class="headerlink" title="依赖jar包"></a>依赖jar包</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.session<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-session<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0.2.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="web-xml配置过滤，过滤器位置放在第一个"><a href="#web-xml配置过滤，过滤器位置放在第一个" class="headerlink" title="web.xml配置过滤，过滤器位置放在第一个"></a>web.xml配置过滤，过滤器位置放在第一个</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>springSessionRepositoryFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.DelegatingFilterProxy<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>springSessionRepositoryFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="spring配置文件中配置bean"><a href="#spring配置文件中配置bean" class="headerlink" title="spring配置文件中配置bean"></a>spring配置文件中配置bean</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxInactiveIntervalInSeconds"</span> <span class="attr">value</span>=<span class="string">"1800"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="分析DelegatingFilterProxy过滤器代码"><a href="#分析DelegatingFilterProxy过滤器代码" class="headerlink" title="分析DelegatingFilterProxy过滤器代码"></a>分析DelegatingFilterProxy过滤器代码</h5><blockquote>
+<p>DelegatingFilterProxy 继承自 GenericFilterBean</p>
+<p>GenericFilterBean 实现Filter, BeanNameAware, EnvironmentAware, ServletContextAware, InitializingBean, DisposableBean接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DelegatingFilterProxy</span> <span class="keyword">extends</span> <span class="title">GenericFilterBean</span> </span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">abstract</span> <span class="title">class</span> <span class="title">GenericFilterBean</span> <span class="keyword">implements</span> <span class="title">Filter</span>, <span class="title">BeanNameAware</span>, <span class="title">EnvironmentAware</span>, <span class="title">ServletContextAware</span>, <span class="title">InitializingBean</span>, <span class="title">DisposableBean</span></span></span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>GenericFilterBean 中实现了Filter中的init接口 并定义一个模板方法initFilterBean供子类实现在init中调用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">    Assert.notNull(filterConfig, <span class="string">"FilterConfig must not be null"</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.logger.isDebugEnabled()) &#123;</span><br><span class="line">        <span class="keyword">this</span>.logger.debug(<span class="string">"Initializing filter '"</span> + filterConfig.getFilterName() + <span class="string">"'"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.filterConfig = filterConfig;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        PropertyValues pvs = <span class="keyword">new</span> GenericFilterBean.FilterConfigPropertyValues(filterConfig, <span class="keyword">this</span>.requiredProperties);</span><br><span class="line">        BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(<span class="keyword">this</span>);</span><br><span class="line">        ResourceLoader resourceLoader = <span class="keyword">new</span> ServletContextResourceLoader(filterConfig.getServletContext());</span><br><span class="line">        bw.registerCustomEditor(Resource.class, <span class="keyword">new</span> ResourceEditor(resourceLoader, <span class="keyword">this</span>.environment));</span><br><span class="line">        <span class="keyword">this</span>.initBeanWrapper(bw);</span><br><span class="line">        bw.setPropertyValues(pvs, <span class="keyword">true</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (BeansException var5) &#123;</span><br><span class="line">        String msg = <span class="string">"Failed to set bean properties on filter '"</span> + filterConfig.getFilterName() + <span class="string">"': "</span> + var5.getMessage();</span><br><span class="line">        <span class="keyword">this</span>.logger.error(msg, var5);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NestedServletException(msg, var5);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.initFilterBean();<span class="comment">//调用子类的initFilterBean方法</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.logger.isDebugEnabled()) &#123;</span><br><span class="line">        <span class="keyword">this</span>.logger.debug(<span class="string">"Filter '"</span> + filterConfig.getFilterName() + <span class="string">"' configured successfully"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initFilterBean</span><span class="params">()</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>DelegatingFilterProxy 中首先实现了initFilterBean()方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initFilterBean</span><span class="params">()</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">    Object var1 = <span class="keyword">this</span>.delegateMonitor;</span><br><span class="line">    <span class="keyword">synchronized</span>(<span class="keyword">this</span>.delegateMonitor) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.delegate == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>.targetBeanName == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">this</span>.targetBeanName = <span class="keyword">this</span>.getFilterName();<span class="comment">//继承自父类，获取配置的过滤器名字即springSessionRepositoryFilter</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            WebApplicationContext wac = <span class="keyword">this</span>.findWebApplicationContext();</span><br><span class="line">            <span class="keyword">if</span> (wac != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">this</span>.delegate = <span class="keyword">this</span>.initDelegate(wac);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> Filter <span class="title">initDelegate</span><span class="params">(WebApplicationContext wac)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">    Filter delegate = (Filter)wac.getBean(<span class="keyword">this</span>.getTargetBeanName(), Filter.class);<span class="comment">//在容器中查找名为springSessionRepositoryFilter的过滤器实例 我们的主角上场了</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.isTargetFilterLifecycle()) &#123;</span><br><span class="line">        delegate.init(<span class="keyword">this</span>.getFilterConfig());<span class="comment">//this.getFilterConfig()继承自GenericFilterBean返回FilterConfig对象，调用springSessionRepositoryFilter的init方法并将FilterConfig传过去</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> delegate;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>SessionRepositoryFilter 这个类内部包装了原来的request，response 以及session对象,包装后的request的getsession方法返回重写的session对象。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">SessionRepositoryRequestWrapper</span> <span class="keyword">extends</span> <span class="title">HttpServletRequestWrapper</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doFilterInternal</span><span class="params">(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">        request.setAttribute(SESSION_REPOSITORY_ATTR, <span class="keyword">this</span>.sessionRepository);</span><br><span class="line">        SessionRepositoryFilter&lt;S&gt;.SessionRepositoryRequestWrapper wrappedRequest = <span class="keyword">new</span> SessionRepositoryFilter.SessionRepositoryRequestWrapper(request, response, <span class="keyword">this</span>.servletContext);</span><br><span class="line">        SessionRepositoryFilter&lt;S&gt;.SessionRepositoryResponseWrapper wrappedResponse = <span class="keyword">new</span> SessionRepositoryFilter.SessionRepositoryResponseWrapper(wrappedRequest, response);</span><br><span class="line">        HttpServletRequest strategyRequest = <span class="keyword">this</span>.httpSessionStrategy.wrapRequest(wrappedRequest, wrappedResponse);</span><br><span class="line">        HttpServletResponse strategyResponse = <span class="keyword">this</span>.httpSessionStrategy.wrapResponse(wrappedRequest, wrappedResponse);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            filterChain.doFilter(strategyRequest, strategyResponse);<span class="comment">//包装原来的HttpServletRequest和HttpServletResponse</span></span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            wrappedRequest.commitSession();<span class="comment">//在看一下这个方法</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">commitSession</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            SessionRepositoryFilter&lt;S&gt;.SessionRepositoryRequestWrapper.HttpSessionWrapper wrappedSession = <span class="keyword">this</span>.getCurrentSession();</span><br><span class="line">            <span class="keyword">if</span> (wrappedSession == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">this</span>.isInvalidateClientSession()) &#123;</span><br><span class="line">                    SessionRepositoryFilter.<span class="keyword">this</span>.httpSessionStrategy.onInvalidateSession(<span class="keyword">this</span>, <span class="keyword">this</span>.response);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                S session = wrappedSession.session;</span><br><span class="line">                SessionRepositoryFilter.<span class="keyword">this</span>.sessionRepository.save(session);<span class="comment">//sessionRepository这个属性通过查看 RedisHttpSessionConfiguration配置Bean发现其实就是RedisOperationsSessionRepository的实例，它的save方法中最终调用的是RedisTemple类中的方法。</span></span><br><span class="line">                <span class="keyword">if</span> (!<span class="keyword">this</span>.isRequestedSessionIdValid() || !session.getId().equals(<span class="keyword">this</span>.getRequestedSessionId())) &#123;</span><br><span class="line">                    SessionRepositoryFilter.<span class="keyword">this</span>.httpSessionStrategy.onNewSession(session, <span class="keyword">this</span>, <span class="keyword">this</span>.response);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> HttpSession <span class="title">getSession</span><span class="params">(<span class="keyword">boolean</span> create)</span> </span>&#123;</span><br><span class="line">            SessionRepositoryFilter&lt;S&gt;.SessionRepositoryRequestWrapper.HttpSessionWrapper currentSession = <span class="keyword">this</span>.getCurrentSession();</span><br><span class="line">            <span class="keyword">if</span> (currentSession != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> currentSession;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                String requestedSessionId = <span class="keyword">this</span>.getRequestedSessionId();</span><br><span class="line">                ExpiringSession session;</span><br><span class="line">                <span class="keyword">if</span> (requestedSessionId != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    session = (ExpiringSession)SessionRepositoryFilter.<span class="keyword">this</span>.sessionRepository.getSession(requestedSessionId);</span><br><span class="line">                    <span class="keyword">if</span> (session != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        <span class="keyword">this</span>.requestedSessionIdValid = <span class="keyword">true</span>;</span><br><span class="line">                        currentSession = <span class="keyword">new</span> SessionRepositoryFilter.SessionRepositoryRequestWrapper.HttpSessionWrapper(session, <span class="keyword">this</span>.getServletContext());</span><br><span class="line">                        currentSession.setNew(<span class="keyword">false</span>);</span><br><span class="line">                        <span class="keyword">this</span>.setCurrentSession(currentSession);</span><br><span class="line">                        <span class="keyword">return</span> currentSession;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (!create) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    session = (ExpiringSession)SessionRepositoryFilter.<span class="keyword">this</span>.sessionRepository.createSession();</span><br><span class="line">                    currentSession = <span class="keyword">new</span> SessionRepositoryFilter.SessionRepositoryRequestWrapper.HttpSessionWrapper(session, <span class="keyword">this</span>.getServletContext());</span><br><span class="line">                    <span class="keyword">this</span>.setCurrentSession(currentSession);</span><br><span class="line">                    <span class="keyword">return</span> currentSession;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> HttpSession <span class="title">getSession</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.getSession(<span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line">	...</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpSessionWrapper</span> <span class="keyword">implements</span> <span class="title">HttpSession</span></span>&#123;...&#125;<span class="comment">//在方法中定义了一个HttpSession的包装类，完全重写的原来的HttpSession对象。</span></span><br><span class="line">	... </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>在看一下这个包装的HttpSessionWrapper  这个session包装类重写了所有HttpSession对象的方法。<br>将session的数据保存在redis里以达到通过redis共享session的目的<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpSessionWrapper</span> <span class="keyword">implements</span> <span class="title">HttpSession</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> S session;  <span class="comment">//这个S是SessionRepositoryFilter&lt;S extends ExpiringSession&gt;类定义的泛型，实际上它是谁呢？ 这时我们看一下最后一个配置的Bean对象发现这里的S其实就是RedisOperationsSessionRepository.RedisSession</span></span><br><span class="line"></span><br><span class="line">	RedisHttpSessionConfiguration</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ServletContext servletContext;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> invalidated;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> old;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HttpSessionWrapper</span><span class="params">(S session, ServletContext servletContext)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.session = session;</span><br><span class="line">        <span class="keyword">this</span>.servletContext = servletContext;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getCreationTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.checkState();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.session.getCreationTime();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.session.getId();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getLastAccessedTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.checkState();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.session.getLastAccessedTime();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ServletContext <span class="title">getServletContext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.servletContext;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMaxInactiveInterval</span><span class="params">(<span class="keyword">int</span> interval)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.session.setMaxInactiveIntervalInSeconds(interval);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMaxInactiveInterval</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.session.getMaxInactiveIntervalInSeconds();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> HttpSessionContext <span class="title">getSessionContext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SessionRepositoryFilter.NOOP_SESSION_CONTEXT;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getAttribute</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.checkState();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.session.getAttribute(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getValue</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.getAttribute(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Enumeration&lt;String&gt; <span class="title">getAttributeNames</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.checkState();</span><br><span class="line">        <span class="keyword">return</span> Collections.enumeration(<span class="keyword">this</span>.session.getAttributeNames());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String[] getValueNames() &#123;</span><br><span class="line">        <span class="keyword">this</span>.checkState();</span><br><span class="line">        Set&lt;String&gt; attrs = <span class="keyword">this</span>.session.getAttributeNames();</span><br><span class="line">        <span class="keyword">return</span> (String[])attrs.toArray(<span class="keyword">new</span> String[<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAttribute</span><span class="params">(String name, Object value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.checkState();</span><br><span class="line">        <span class="keyword">this</span>.session.setAttribute(name, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">putValue</span><span class="params">(String name, Object value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.setAttribute(name, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeAttribute</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.checkState();</span><br><span class="line">        <span class="keyword">this</span>.session.removeAttribute(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeValue</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.removeAttribute(name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">invalidate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.checkState();</span><br><span class="line">        <span class="keyword">this</span>.invalidated = <span class="keyword">true</span>;</span><br><span class="line">        SessionRepositoryRequestWrapper.<span class="keyword">this</span>.requestedSessionInvalidated = <span class="keyword">true</span>;</span><br><span class="line">        SessionRepositoryRequestWrapper.<span class="keyword">this</span>.setCurrentSession((SessionRepositoryFilter.SessionRepositoryRequestWrapper.HttpSessionWrapper)<span class="keyword">null</span>);</span><br><span class="line">        SessionRepositoryFilter.<span class="keyword">this</span>.sessionRepository.delete(<span class="keyword">this</span>.getId());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNew</span><span class="params">(<span class="keyword">boolean</span> isNew)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.old = !isNew;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isNew</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.checkState();</span><br><span class="line">        <span class="keyword">return</span> !<span class="keyword">this</span>.old;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">checkState</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.invalidated) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"The HttpSession has already be invalidated."</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
+<p>RedisHttpSessionConfiguration 是一个配置Bean </p>
+<ul>
+<li>方法：springSessionRepositoryFilter返回SessionRepositoryFilter对象。</li>
+<li>在new SessionRepositoryFilter对象时传递sessionRepository，而sessionRepository实际上是RedisOperationsSessionRepository的实例。并且上面包装session中使用的泛型S的实例就是在RedisOperationsSessionRepository类中指定为具体的RedisOperationsSessionRepository.RedisSession类型的。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//springSessionRepositoryFilter</span></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> &lt;S extends ExpiringSession&gt; SessionRepositoryFilter&lt;? extends ExpiringSession&gt; springSessionRepositoryFilter(SessionRepository&lt;S&gt; sessionRepository, ServletContext servletContext) &#123;</span><br><span class="line">    SessionRepositoryFilter&lt;S&gt; sessionRepositoryFilter = <span class="keyword">new</span> SessionRepositoryFilter(sessionRepository);</span><br><span class="line">    sessionRepositoryFilter.setServletContext(servletContext);</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.httpSessionStrategy != <span class="keyword">null</span>) &#123;</span><br><span class="line">        sessionRepositoryFilter.setHttpSessionStrategy(<span class="keyword">this</span>.httpSessionStrategy);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> sessionRepositoryFilter;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//sessionRepository实例，RedisOperationsSessionRepository中的sessionRedisOperations就是这个RedisTemplate实例</span></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> RedisOperationsSessionRepository <span class="title">sessionRepository</span><span class="params">(RedisTemplate&lt;String, ExpiringSession&gt; sessionRedisTemplate)</span> </span>&#123;</span><br><span class="line">    RedisOperationsSessionRepository sessionRepository = <span class="keyword">new</span> RedisOperationsSessionRepository(sessionRedisTemplate);</span><br><span class="line">    sessionRepository.setDefaultMaxInactiveInterval(<span class="keyword">this</span>.maxInactiveIntervalInSeconds);</span><br><span class="line">    <span class="keyword">return</span> sessionRepository;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span> <span class="comment">//使用sessionRepository创建SessionRepositoryFilter实例</span></span><br><span class="line"><span class="keyword">public</span> &lt;S extends ExpiringSession&gt; SessionRepositoryFilter&lt;? extends ExpiringSession&gt; springSessionRepositoryFilter(SessionRepository&lt;S&gt; sessionRepository, ServletContext servletContext) &#123;</span><br><span class="line">    SessionRepositoryFilter&lt;S&gt; sessionRepositoryFilter = <span class="keyword">new</span> SessionRepositoryFilter(sessionRepository);</span><br><span class="line">    sessionRepositoryFilter.setServletContext(servletContext);</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.httpSessionStrategy != <span class="keyword">null</span>) &#123;</span><br><span class="line">        sessionRepositoryFilter.setHttpSessionStrategy(<span class="keyword">this</span>.httpSessionStrategy);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> sessionRepositoryFilter;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>RedisOperationsSessionRepository  指定了泛型S的具体类型RedisOperationsSessionRepository.RedisSession<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisOperationsSessionRepository</span> <span class="keyword">implements</span> <span class="title">SessionRepository</span>&lt;<span class="title">RedisOperationsSessionRepository</span>.<span class="title">RedisSession</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">...  <span class="comment">//RedisSession的定义</span></span><br><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisSession</span> <span class="keyword">implements</span> <span class="title">ExpiringSession</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> MapSession cached;</span><br><span class="line">        <span class="keyword">private</span> Long originalLastAccessTime;</span><br><span class="line">        <span class="keyword">private</span> Map&lt;String, Object&gt; delta;</span><br><span class="line"></span><br><span class="line">        RedisSession() &#123;</span><br><span class="line">            <span class="keyword">this</span>(<span class="keyword">new</span> MapSession());</span><br><span class="line">            <span class="keyword">this</span>.delta.put(<span class="string">"creationTime"</span>, <span class="keyword">this</span>.getCreationTime());</span><br><span class="line">            <span class="keyword">this</span>.delta.put(<span class="string">"maxInactiveInterval"</span>, <span class="keyword">this</span>.getMaxInactiveIntervalInSeconds());</span><br><span class="line">            <span class="keyword">this</span>.delta.put(<span class="string">"lastAccessedTime"</span>, <span class="keyword">this</span>.getLastAccessedTime());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        RedisSession(MapSession cached) &#123;</span><br><span class="line">            <span class="keyword">this</span>.delta = <span class="keyword">new</span> HashMap();</span><br><span class="line">            Assert.notNull(<span class="string">"MapSession cannot be null"</span>);</span><br><span class="line">            <span class="keyword">this</span>.cached = cached;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLastAccessedTime</span><span class="params">(<span class="keyword">long</span> lastAccessedTime)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.cached.setLastAccessedTime(lastAccessedTime);</span><br><span class="line">            <span class="keyword">this</span>.delta.put(<span class="string">"lastAccessedTime"</span>, <span class="keyword">this</span>.getLastAccessedTime());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isExpired</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.cached.isExpired();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getCreationTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.cached.getCreationTime();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.cached.getId();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getLastAccessedTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.cached.getLastAccessedTime();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMaxInactiveIntervalInSeconds</span><span class="params">(<span class="keyword">int</span> interval)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.cached.setMaxInactiveIntervalInSeconds(interval);</span><br><span class="line">            <span class="keyword">this</span>.delta.put(<span class="string">"maxInactiveInterval"</span>, <span class="keyword">this</span>.getMaxInactiveIntervalInSeconds());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMaxInactiveIntervalInSeconds</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.cached.getMaxInactiveIntervalInSeconds();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Object <span class="title">getAttribute</span><span class="params">(String attributeName)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.cached.getAttribute(attributeName);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Set&lt;String&gt; <span class="title">getAttributeNames</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.cached.getAttributeNames();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAttribute</span><span class="params">(String attributeName, Object attributeValue)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.cached.setAttribute(attributeName, attributeValue);</span><br><span class="line">            <span class="keyword">this</span>.delta.put(RedisOperationsSessionRepository.getSessionAttrNameKey(attributeName), attributeValue);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeAttribute</span><span class="params">(String attributeName)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.cached.removeAttribute(attributeName);</span><br><span class="line">            <span class="keyword">this</span>.delta.put(RedisOperationsSessionRepository.getSessionAttrNameKey(attributeName), (Object)<span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">saveDelta</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            String sessionId = <span class="keyword">this</span>.getId();</span><br><span class="line">            RedisOperationsSessionRepository.<span class="keyword">this</span>.getSessionBoundHashOperations(sessionId).putAll(<span class="keyword">this</span>.delta);</span><br><span class="line">            <span class="keyword">this</span>.delta = <span class="keyword">new</span> HashMap(<span class="keyword">this</span>.delta.size());</span><br><span class="line">            RedisOperationsSessionRepository.<span class="keyword">this</span>.expirationPolicy.onExpirationUpdated(<span class="keyword">this</span>.originalLastAccessTime, <span class="keyword">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h5 id="最后还是贴个图吧"><a href="#最后还是贴个图吧" class="headerlink" title="最后还是贴个图吧"></a>最后还是贴个图吧</h5><p><img src="SessionRepositoryFilter.png" alt=""></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p>代码一点一点缕,整理的有点乱 </p>
+<ul>
+<li>整个过程就是通过SessionFilter过滤器包装Request，Response，Session替换Http原来的那帮对象，通过过滤器传到到了我们自己的业务代码中的Req、Reps已经是被掉包的对象了，通过这个对象获取的Session也是掉包后的Session，这个Session中保存的数据，会被保存到Redis中，获取也是从Redis中获取，最后对Session的操作变成了对Redis的操作，而整个过程对我们开发来说是完全透明的。</li>
+</ul>
+</blockquote>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/alipay_qrcode.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/wechat_qrcode.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -220,384 +356,129 @@ var _hmt = _hmt || [];
 
 
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://gaoxueliang.com.cn/2018/08/06/技术/集群环境下做session共享/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/06/工具/记一次IDEA默认配置差点带走我的C盘/" class="archive-article-date">
-  	<time datetime="2018-08-06T06:03:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-06</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/08/06/工具/记一次IDEA默认配置差点带走我的C盘/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">idea差点带走我可怜的C盘</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/06/工具/记一次IDEA默认配置差点带走我的C盘/">idea差点带走我可怜的C盘</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">工具</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">idea</a>
-        		</li>
-      		
-		</ul>
-	</div>
+        
+        
+    </div>
+</aside>
 
 
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/02/技术/ClassLoader类加载器/" class="archive-article-date">
-  	<time datetime="2018-08-02T10:44:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/02/技术/ClassLoader类加载器/">ClassLoader类加载器</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后端</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">ClassLoader</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/01/技术/log4j2介绍和应用/" class="archive-article-date">
-  	<time datetime="2018-08-01T07:45:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/01/技术/log4j2介绍和应用/">log4j2介绍和应用</a>
-    </h1>
-  
+  <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC8zODIxMi8xNDc0MA==">
+<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后端</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">log4j2</a>
-        		</li>
-      		
-		</ul>
-	</div>
+       if (typeof LivereTower === 'function') { return; }
 
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
 
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/26/技术/log4j扩展/" class="archive-article-date">
-  	<time datetime="2018-07-26T02:54:55.645Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/26/技术/log4j扩展/">log4j日志扩展实现log文件同时按日期和大小切分</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后端</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">log4j</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/23/技术/页面获取窗口尺寸大小的相关属性/" class="archive-article-date">
-  	<time datetime="2018-07-23T11:55:34.409Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/23/技术/页面获取窗口尺寸大小的相关属性/">页面中获取窗口尺寸大小</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">前端</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">dom</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/23/技术/monaco-editor代码编辑器/" class="archive-article-date">
-  	<time datetime="2018-07-23T07:05:26.025Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/23/技术/monaco-editor代码编辑器/">monaco-editor代码编辑器</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">前端</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">插件</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/23/hello-world/" class="archive-article-date">
-  	<time datetime="2018-07-23T05:40:00.313Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/23/hello-world/">Hello World保留以示敬意</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/07/23/GitHub+Hexo搭建个人博客/" class="archive-article-date">
-  	<time datetime="2018-07-23T05:40:00.310Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/07/23/GitHub+Hexo搭建个人博客/">GitHub+Hexo搭建个人博客</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hexo</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">搭建</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+</script>
+<noscript>为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
   
   
-    </div></section>
+   
+
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -622,8 +503,8 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
