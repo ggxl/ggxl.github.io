@@ -168,6 +168,110 @@ var _hmt = _hmt || [];
             
 
   
+    <article id="post-技术/spring-session多应用间不能共享session问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/10/技术/spring-session多应用间不能共享session问题/">spring-session多应用间不能共享session问题</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/10/技术/spring-session多应用间不能共享session问题/" class="archive-article-date">
+  	<time datetime="2018-09-10T07:05:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018年09月10日 15:05:54</time>
+</a>
+        
+        
+        <div style="margin-top:10px;">
+    <span class="post-time">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-keyboard-o"></i>
+        <span class="post-meta-item-text">  字数统计: </span>
+        <span class="post-count">1,221字</span>
+      </span>
+    </span>
+
+    <span class="post-time">
+      &nbsp; | &nbsp;
+      <span class="post-meta-item-icon">
+        <i class="fa fa-hourglass-half"></i>
+        <span class="post-meta-item-text">  阅读时长: </span>
+        <span class="post-count">6分</span>
+      </span>
+    </span>
+</div>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="发现问题"><a href="#发现问题" class="headerlink" title="发现问题"></a>发现问题</h3><p>目前的项目使用spring-session + redis 实现的session共享，在开发PC端的时候发现，两个应用之间访问请求头会出现两个session，自然会被踢出登录。</p>
+<h4 id="为什么？"><a href="#为什么？" class="headerlink" title="为什么？"></a>为什么？</h4><p>session即是cookie 应该是唯一的才对，为什么会出现两个同名session，一定path或者domain不同才会这样，仔细一看果然，发现path不同，应用a的path为/a 应用b的path为/b</p>
+<h4 id="到底为什么？"><a href="#到底为什么？" class="headerlink" title="到底为什么？"></a>到底为什么？</h4><p>开始扒源码，看看spring是怎么创建这个session的。之前已经看过spring-session的源码了解了实现原理，知道了我们配置的过滤其实就是<code>org.springframework.session.web.http.SessionRepositoryFilter</code>  </p>
+        
+          <a class="article-more-a" href="/2018/09/10/技术/spring-session多应用间不能共享session问题/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">技术</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后端</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/10/技术/spring-session多应用间不能共享session问题/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-技术/Restful接口设计" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1148,119 +1252,10 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-GitHub+Hexo搭建个人博客" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/23/GitHub+Hexo搭建个人博客/">GitHub+Hexo搭建个人博客</a>
-    </h1>
-  
-
-        
-        <a href="/2018/07/23/GitHub+Hexo搭建个人博客/" class="archive-article-date">
-  	<time datetime="2018-07-23T05:40:00.310Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018年07月23日 13:40:00</time>
-</a>
-        
-        
-        <div style="margin-top:10px;">
-    <span class="post-time">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-keyboard-o"></i>
-        <span class="post-meta-item-text">  字数统计: </span>
-        <span class="post-count">1,524字</span>
-      </span>
-    </span>
-
-    <span class="post-time">
-      &nbsp; | &nbsp;
-      <span class="post-meta-item-icon">
-        <i class="fa fa-hourglass-half"></i>
-        <span class="post-meta-item-text">  阅读时长: </span>
-        <span class="post-count">5分</span>
-      </span>
-    </span>
-</div>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>看到一句话，<strong>实践是最好的成长，发表是最好的记忆</strong>。<br>作为一个程序员，我们需要学习的东西太多，每天不是在码代码就是在学习怎么码代码，很多东西学习完之后，可能一段时间不用就会忘记，下次在用可能又是一脸懵逼，找不到思路。<br>怎么办呢？我们需要有个地方把这些保存下来，你可以选择笔记，有道云笔记，印象笔记都很不错，但是这些笔记都是属于你自己的，别人看不到，就没法和你交流沟通，有些东西在我们和他人交流时才能理解的更加透彻，真正掌握。<br>那么博客是个不错的选择，你可以选择博客园，CSDN，简书等博客网站，巴特，在这些博客网站上我们只能按照他们的套路去操作，无法做一些个性化的操作，受限于人的滋味不好受，怎么办呢？<br>嗖,建一个自己的博客网站。<br>建网站需要有个云服务器，可是服务器那么贵，一个入门配置每年都要好几百，对于我们这种人要每年付那么高的费用显得太奢侈，那么代码圣地GitHub可以帮我们</p>
-</blockquote>
-<h2 id="首先"><a href="#首先" class="headerlink" title="首先"></a>首先</h2><p>要准备的东西</p>
-<ul>
-<li><a href="https://github.com" target="_blank" rel="noopener">GitHub</a>账号</li>
-<li><a href="https://nodejs.org/en/" target="_blank" rel="noopener">node.js</a></li>
-<li><a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a></li>
-<li><a href="https://git-scm.com/" target="_blank" rel="noopener">git</a></li>
-<li>markdown编辑器 <a href="https://www.appinn.com/markdown/" target="_blank" rel="noopener">语法</a></li>
-<li>域名(如果不想使用github的域名)<em><a href="https://wanwang.aliyun.com/" target="_blank" rel="noopener">万网</a></em></li>
-</ul>
-        
-          <a class="article-more-a" href="/2018/07/23/GitHub+Hexo搭建个人博客/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hexo</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">搭建</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/07/23/GitHub+Hexo搭建个人博客/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 
@@ -1968,15 +1963,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">工具</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">idea</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">后端</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Restfull</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1988,6 +1979,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">log4j2</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">前端</a>
               </li>
              
@@ -1996,7 +1991,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Restfull</a>
+                <a href="javascript:void(0)" class="js-tag color3">集群</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2004,15 +1999,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">集群</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">log4j2</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">log4j</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">idea</a>
               </li>
             
             <div class="clearfix"></div>
